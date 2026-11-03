@@ -48,7 +48,7 @@ export const siteConfig: SiteConfig = {
 	subtitle: "Demo site",
 
 	// 站点 URL
-	site_url: "https://firefly.yuhao-house.workers.dev",
+	site_url: "https://firefly-blog-f3o.pages.dev",
 
 	// 站点描述
 	description:
