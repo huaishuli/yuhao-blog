@@ -59,6 +59,14 @@ export function detectBuildPlatform({
 		return "ESA Pages";
 	}
 
+	if (
+		hasNonEmptyEnv(env, "CF_PAGES") ||
+		hasNonEmptyEnv(env, "CF_PAGES_BRANCH") ||
+		hasNonEmptyEnv(env, "CF_PAGES_URL")
+	) {
+		return "Cloudflare Pages";
+	}
+
 	if (isCI) {
 		return unknownBuildPlatform;
 	}

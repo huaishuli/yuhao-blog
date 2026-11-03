@@ -5,7 +5,7 @@ export const announcementConfig: AnnouncementConfig = {
 	title: "",
 
 	// 公告内容
-	content: "有些碎念还没整理好，正在慢慢补。",
+	content: "站点刚搭好，文章和图片还在慢慢补，欢迎随便逛逛。",
 
 	// 是否允许用户关闭公告
 	closable: true,
