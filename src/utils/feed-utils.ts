@@ -1,4 +1,4 @@
-import { loadRenderers } from "astro:container";
+﻿import { loadRenderers } from "astro:container";
 import type { CollectionEntry } from "astro:content";
 import { render } from "astro:content";
 import { getContainerRenderer as getMDXRenderer } from "@astrojs/mdx/container-renderer";
@@ -199,7 +199,7 @@ export function buildAtomFeed(opts: {
   <author><name>${escapeXml(authorName)}</name></author>
   <link rel="alternate" href="${escapeXml(siteRoot)}"/>
   <link rel="self" href="${escapeXml(selfLink)}"/>
-  <generator uri="https://github.com/CuteLeaf/Firefly">${escapeXml(generator)}</generator>
+  <generator uri="https://github.com/huaishuli/yuhao-blog">${escapeXml(generator)}</generator>
 ${entryXml}
 </feed>
 `;

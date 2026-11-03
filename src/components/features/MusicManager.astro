@@ -1,4 +1,4 @@
----
+﻿---
 import { musicPlayerConfig } from "@/config/musicConfig";
 import { siteConfig } from "@/config/siteConfig";
 import I18nKey from "@/i18n/i18nKey";
@@ -61,7 +61,7 @@ const managerConfigStr = JSON.stringify({
 <script is:inline data-swup-ignore-script define:vars={{ managerConfigStr }}>
 (function () {
     // Singleton guard – only create once
-    if (window.__fireflyMusic) return;
+    if (window.__yuhaoMusic) return;
 
     var config = JSON.parse(managerConfigStr);
 
@@ -174,7 +174,7 @@ const managerConfigStr = JSON.stringify({
             navigator.mediaSession.metadata = new MediaMetadata({
                 title: track.name || "",
                 artist: track.artist || "",
-                album: config.siteTitle || "Firefly Music",
+                album: config.siteTitle || "Music",
                 artwork: artwork
             });
         } catch (e) {
@@ -627,7 +627,7 @@ const managerConfigStr = JSON.stringify({
     }
 
     // ── Public API ───────────────────────────────────────────
-    window.__fireflyMusic = {
+    window.__yuhaoMusic = {
         init: init,
         getState: function () {
             var track = state.playlist[state.currentIndex] || null;

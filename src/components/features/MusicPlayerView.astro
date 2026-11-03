@@ -1,4 +1,4 @@
----
+﻿---
 import { musicPlayerConfig } from "@/config/musicConfig";
 import I18nKey from "@/i18n/i18nKey";
 import { i18n } from "@/i18n/translation";
@@ -56,7 +56,7 @@ const viewConfigStr = JSON.stringify({
 (function () {
     var cfg = JSON.parse(viewConfigStr);
 
-    var mgr = window.__fireflyMusic;
+    var mgr = window.__yuhaoMusic;
     if (!mgr) return;
 
     function formatTime(seconds) {
@@ -684,8 +684,8 @@ const viewConfigStr = JSON.stringify({
             if (e.detail > 0) ui.btnPlay.blur();
             var st = mgr.getState();
             // 进入网站首次点击播放时，左侧播放器自动展开展歌词
-            if (cfg.showLyrics && ui.btnLrc && !st.isPlaying && !window.__fireflyHasAutoOpenedLyrics) {
-                window.__fireflyHasAutoOpenedLyrics = true;
+            if (cfg.showLyrics && ui.btnLrc && !st.isPlaying && !window.__yuhaoHasAutoOpenedLyrics) {
+                window.__yuhaoHasAutoOpenedLyrics = true;
                 openLyricsDrawer();
             }
             mgr.togglePlay();

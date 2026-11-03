@@ -15,7 +15,7 @@ content:
     format: yaml-frontmatter
     subfolders: true
     filename:
-      template: "{primary}.md"
+      template: "{fields.slug}.md"
       field: create
     fields:
       - name: title
@@ -59,7 +59,7 @@ content:
       - name: slug
         label: 链接别名
         type: string
-        description: 留空则用文件名作为文章链接
+        description: 决定文章的文件名和网址，建议用英文短横线（如 my-first-post）；改成中文会被编码进网址
       - name: author
         label: 作者
         type: string
@@ -163,7 +163,7 @@ content:
     path: src/content/projects
     format: yaml-frontmatter
     filename:
-      template: "{primary}.md"
+      template: "{fields.slug}.md"
       field: create
     fields:
       - name: title
