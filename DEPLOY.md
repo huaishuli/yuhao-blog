@@ -56,11 +56,11 @@ node node_modules\wrangler\bin\wrangler.js deploy
 
 仓库根目录的 `.pages.yml` 定义了 Pages CMS 的后台界面：
 
-- `文章` → `src/content/posts`（frontmatter 字段全量映射，含封面图、标签、置顶、系列、密码等；正文用富文本编辑器）
-- `动态` → `src/content/dynamic`
+- `文章` → `src/content/posts`（frontmatter 字段全量映射，含封面图、标签、置顶、系列、密码等；正文用富文本编辑器；新建时「链接别名」必填，它决定文件名和网址，如 `my-first-post` → `/posts/my-first-post/`）
+- `动态` → `src/content/dynamic`（文件名按 `年-月-日-时分秒.md` 自动生成）
 - `项目` → `src/content/projects`
 - `关于我` / `留言板` → `src/content/spec/about.md`、`guestbook.md`
-- 图片上传目录：`public/assets/images/uploads`，文章里引用 `/assets/images/uploads/xxx.png`
+- 图片上传目录：`public/assets/images/uploads`，后台选图后自动写入 `/assets/images/uploads/xxx.png`
 
 使用步骤：打开 <https://app.pagescms.org> → 用 GitHub 登录 → 授权 Pages CMS 访问 `huaishuli/yuhao-blog` 仓库 → 选择该仓库 → 在左侧选集合增删改内容。保存即提交到仓库 `main` 分支，Cloudflare Pages 自动重新构建上线。
 
@@ -82,6 +82,7 @@ node node_modules\wrangler\bin\wrangler.js deploy
 部署与排查用的零依赖 Node 脚本，不参与构建、不会进 `dist/`。详见 `deploy-tools/README.md`：
 
 - `serve.mjs` — 本地起静态服务器预览 `dist/`（模拟 Cloudflare 静态托管行为）
+- `gh-commit.mjs` — 当 `git push`（github.com:443）不通时，用 GitHub REST API 提交文件到 `main`
 - `bind-domain.mjs` — 把已接入 Cloudflare 的域名绑定到 Worker `huaishuli`
 - `cf-check.mjs` / `cf-deploy-status.mjs` / `cf-list.mjs` — 用 wrangler 凭证查 Worker、部署版本、Zone
 - `download.mjs` — 断点续传下载器（当初拉源码用）
