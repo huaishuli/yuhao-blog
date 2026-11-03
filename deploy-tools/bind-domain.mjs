@@ -1,6 +1,5 @@
-// 把已接入 Cloudflare 的域名绑定到 Worker（firefly）
-// 用法: node bind-domain.mjs example.com [www.example.com]
-// 前提: 域名已 Add a site 且 Zone 状态为 active
+﻿// 鎶婂凡鎺ュ叆 Cloudflare 鐨勫煙鍚嶇粦瀹氬埌 Worker锛坒irefly锛?// 鐢ㄦ硶: node bind-domain.mjs example.com [www.example.com]
+// 鍓嶆彁: 鍩熷悕宸?Add a site 涓?Zone 鐘舵€佷负 active
 import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
@@ -11,7 +10,7 @@ const token = toml.match(/oauth_token = "([^"]+)"/)?.[1];
 const account = toml.match(/account_id = "([^"]+)"/)?.[1] ?? "a724c05c7d938cb9360efb917dc73f1a";
 if (!token) throw new Error("no oauth token in wrangler config");
 const H = { Authorization: `Bearer ${token}`, "content-type": "application/json" };
-const SERVICE = "firefly";
+const SERVICE = "yuhao-blog";
 
 const hostnames = process.argv.slice(2);
 if (!hostnames.length) {
