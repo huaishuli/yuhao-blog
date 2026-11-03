@@ -2,7 +2,7 @@
 
 ## Project Structure & Module Organization
 
-Firefly is an Astro 7 site with Svelte islands and TypeScript configuration. Main source code lives in `src/`: routes in `src/pages`, layouts in `src/layouts`, reusable UI in `src/components`, styles in `src/styles`, content in `src/content`, helpers in `src/utils`, and Markdown/HTML plugins in `src/plugins`. Site configuration is split across `src/config` with matching type definitions in `src/types`; prefer imports from `@/config` when available. Static files served directly belong in `public`, source-managed images in `src/assets`, docs in `docs` and `Firefly-Docs`, and automation in `scripts`.
+Huaishuli is an Astro 7 site with Svelte islands and TypeScript configuration. Main source code lives in `src/`: routes in `src/pages`, layouts in `src/layouts`, reusable UI in `src/components`, styles in `src/styles`, content in `src/content`, helpers in `src/utils`, and Markdown/HTML plugins in `src/plugins`. Site configuration is split across `src/config` with matching type definitions in `src/types`; prefer imports from `@/config` when available. Static files served directly belong in `public`, source-managed images in `src/assets`, build-time scripts in `scripts`, and deployment/ops helpers in `deploy-tools`.
 
 ## Build, Test, and Development Commands
 
@@ -32,3 +32,7 @@ Use Conventional Commits, matching the current history: `feat: ...`, `fix: ...`,
 ## Security & Configuration Tips
 
 Do not commit secrets, tokens, or service keys in config files. Keep deployment-specific settings in the target platform environment, and review generated files such as `dist`, `src/constants/lqips.json`, and `src/constants/icons.ts` before committing them.
+
+## Content Workflow
+
+Posts live in `src/content/posts`, microblog entries in `src/content/dynamic`, projects in `src/content/projects`, and special pages in `src/content/spec`. The same content is editable through Pages CMS, whose schema is defined in `.pages.yml`; keep that file in sync when adding frontmatter fields. Pushes to `main` rebuild the site on Cloudflare Pages automatically.

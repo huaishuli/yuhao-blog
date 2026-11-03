@@ -9,10 +9,10 @@ export const profileConfig: ProfileConfig = {
 	avatar: "assets/images/avatar.avif",
 
 	// 名字
-	name: "Yuhao",
+	name: "Huaishuli",
 
 	// 个人签名
-	bio: "Hello, I'm Yuhao.",
+	bio: "怀姝离 · 记录技术、折腾与日常",
 
 	// 链接配置
 	// 已经预装的图标集：fa7-brands，fa7-regular，fa7-solid，material-symbols，simple-icons

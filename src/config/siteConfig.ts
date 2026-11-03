@@ -42,21 +42,22 @@ const pages = resolvePageToggles({
 
 export const siteConfig: SiteConfig = {
 	// 站点标题
-	title: "Yuhao Blog",
+	title: "Huaishuli",
 
 	// 站点副标题
-	subtitle: "Yuhao 的个人博客",
+	subtitle: "记录技术、折腾与日常的个人博客",
 
 	// 站点 URL
 	site_url: "https://huaishuli.pages.dev",
 
 	// 站点描述
 	description:
-		"Yuhao 的个人博客，记录技术折腾、动漫收藏与日常碎念。基于 Astro 构建，托管在 Cloudflare。",
+		"Huaishuli 的个人博客：技术折腾、动漫收藏与日常记录。基于 Astro 构建，托管在 Cloudflare Pages。",
 
 	// 站点关键词
 	keywords: [
-		"Yuhao",
+		"Huaishuli",
+		"怀姝离",
 		"个人博客",
 		"Astro",
 		"ACGN",
@@ -91,7 +92,7 @@ export const siteConfig: SiteConfig = {
 	favicon: [
 		{
 			// 图标文件路径
-			src: "/favicon/yuhao-32.png",
+			src: "/favicon/huaishuli-light-32.png",
 			// 可选，指定主题 'light' | 'dark'
 			// theme: "light",
 			// 可选，图标大小
@@ -113,10 +114,10 @@ export const siteConfig: SiteConfig = {
 		logo: {
 			type: "icon",
 			value: "material-symbols:auto-awesome",
-			alt: "Yuhao",
+			alt: "Huaishuli",
 		},
 		// 导航栏标题
-		title: "Yuhao Blog",
+		title: "Huaishuli",
 		// 全宽导航栏，导航栏是否占满屏幕宽度
 		widthFull: false,
 		// 导航菜单对齐方式，left：左对齐，center：居中

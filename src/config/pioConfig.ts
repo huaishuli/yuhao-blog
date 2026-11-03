@@ -7,8 +7,8 @@ export const spineModelConfig: SpineModelConfig = {
 
 	// Spine模型配置
 	model: {
-		// Spine模型文件路径
-		path: "/pio/models/spine/firefly/1310.json",
+		// Spine模型文件路径（把自己的 Spine 模型放进 public/pio/models/spine/<名称>/ 后填对应 json 路径）
+		path: "",
 		// 模型缩放比例
 		scale: 1.0,
 		// X轴偏移
@@ -50,7 +50,7 @@ export const spineModelConfig: SpineModelConfig = {
 		],
 		// 点击时随机显示的文字消息
 		clickMessages: [
-			"你好呀！我是流萤~",
+			"你好呀！我是 Huaishuli 的小助手~",
 			"今天也要加油哦！✨",
 			"想要一起去看星空吗？🌟",
 			"记得要好好休息呢~",

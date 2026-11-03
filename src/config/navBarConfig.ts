@@ -109,10 +109,10 @@ const getDynamicNavBarConfig = (): NavBarConfig => {
 		],
 	});
 
-	// 文档链接
+	// 需要额外导航时在这里追加，例如：
 	// links.push({
 	// 	name: "文档",
-	// 	url: "https://docs-firefly.cuteleaf.cn",
+	// 	url: "https://example.com/docs",
 	// 	external: true,
 	// 	icon: "material-symbols:docs",
 	// });
