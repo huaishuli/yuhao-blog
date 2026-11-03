@@ -1,0 +1,291 @@
+# Pages CMS 配置（https://app.pagescms.org）
+# 结构与内容目录说明见 DEPLOY.md
+media:
+  input: public/assets/images/uploads
+  output: /assets/images/uploads
+  categories: [image]
+  rename: safe
+
+content:
+  # ---------------- 文章 ----------------
+  - name: posts
+    label: 文章
+    type: collection
+    path: src/content/posts
+    format: yaml-frontmatter
+    subfolders: true
+    filename:
+      template: "{primary}.md"
+      field: create
+    fields:
+      - name: title
+        label: 标题
+        type: string
+        required: true
+      - name: published
+        label: 发布日期
+        type: date
+        required: true
+        options:
+          format: yyyy-MM-dd
+      - name: updated
+        label: 更新日期
+        type: date
+        options:
+          format: yyyy-MM-dd
+      - name: description
+        label: 摘要
+        type: text
+      - name: category
+        label: 分类
+        type: string
+        description: 例如「文章示例」「博客指南」
+      - name: tags
+        label: 标签
+        type: string
+        list: true
+      - name: image
+        label: 封面图
+        type: image
+        description: 从媒体库选择会自动写入 /assets/images/uploads/ 路径；也可手填 ./images/xxx.avif
+      - name: draft
+        label: 草稿
+        type: boolean
+        default: false
+      - name: pinned
+        label: 置顶
+        type: boolean
+        default: false
+      - name: slug
+        label: 链接别名
+        type: string
+        description: 留空则用文件名作为文章链接
+      - name: author
+        label: 作者
+        type: string
+      - name: lang
+        label: 语言
+        type: select
+        options:
+          values:
+            - value: ""
+              label: 跟随站点默认
+            - value: zh_CN
+              label: 简体中文
+            - value: zh_TW
+              label: 繁體中文
+            - value: en
+              label: English
+            - value: ja
+              label: 日本語
+            - value: ko
+              label: 한국어
+            - value: ru
+              label: Русский
+      - name: series
+        label: 系列
+        type: string
+        description: 同一系列的文章会显示上一篇/下一篇导航
+      - name: seriesOrder
+        label: 系列序号
+        type: number
+      - name: sourceLink
+        label: 原文链接
+        type: string
+      - name: licenseName
+        label: 许可协议名称
+        type: string
+      - name: licenseUrl
+        label: 许可协议链接
+        type: string
+      - name: comment
+        label: 允许评论
+        type: boolean
+        default: true
+      - name: password
+        label: 访问密码
+        type: string
+        description: 填写后文章正文会被加密，需要密码查看
+      - name: passwordHint
+        label: 密码提示
+        type: string
+      - name: body
+        label: 正文
+        type: rich-text
+    view:
+      layout: tree
+      primary: title
+      fields: [title, published, category]
+      sort: [published]
+      default:
+        sort: published
+        order: desc
+
+  # ---------------- 动态 ----------------
+  - name: dynamic
+    label: 动态
+    type: collection
+    path: src/content/dynamic
+    format: yaml-frontmatter
+    filename:
+      template: "{year}-{month}-{day}-{hour}{minute}{second}.md"
+      field: false
+    fields:
+      - name: published
+        label: 发布时间
+        type: date
+        required: true
+        options:
+          time: true
+          format: yyyy-MM-dd HH:mm:ss
+      - name: pinned
+        label: 置顶
+        type: boolean
+        default: false
+      - name: location
+        label: 位置
+        type: string
+      - name: body
+        label: 内容
+        type: rich-text
+    view:
+      primary: published
+      fields: [published, pinned, location]
+      sort: [published]
+      default:
+        sort: published
+        order: desc
+
+  # ---------------- 项目 ----------------
+  - name: projects
+    label: 项目
+    type: collection
+    path: src/content/projects
+    format: yaml-frontmatter
+    filename:
+      template: "{primary}.md"
+      field: create
+    fields:
+      - name: title
+        label: 项目名称
+        type: string
+        required: true
+      - name: slug
+        label: 链接别名
+        type: string
+      - name: published
+        label: 日期
+        type: date
+        required: true
+        options:
+          format: yyyy-MM-dd
+      - name: status
+        label: 状态
+        type: select
+        options:
+          values:
+            - value: planning
+              label: 计划中
+            - value: developing
+              label: 开发中
+            - value: published
+              label: 已上线
+            - value: archived
+              label: 已归档
+      - name: order
+        label: 排序
+        type: number
+        description: 数字越小越靠前
+      - name: draft
+        label: 草稿
+        type: boolean
+        default: false
+      - name: description
+        label: 简介
+        type: text
+      - name: image
+        label: 封面图
+        type: image
+      - name: tags
+        label: 标签
+        type: string
+        list: true
+      - name: link
+        label: 相关链接
+        type: object
+        list: true
+        fields:
+          - name: label
+            label: 名称
+            type: string
+            required: true
+          - name: icon
+            label: 图标
+            type: string
+            description: 图标名（如 fa7-brands:github、material-symbols:menu-book）或图片地址
+          - name: value
+            label: 链接地址
+            type: string
+            required: true
+      - name: lang
+        label: 语言
+        type: select
+        options:
+          values:
+            - value: ""
+              label: 跟随站点默认
+            - value: zh_CN
+              label: 简体中文
+            - value: zh_TW
+              label: 繁體中文
+            - value: en
+              label: English
+            - value: ja
+              label: 日本語
+            - value: ko
+              label: 한국어
+            - value: ru
+              label: Русский
+      - name: body
+        label: 介绍正文
+        type: rich-text
+    view:
+      primary: title
+      fields: [title, status, published]
+      sort: [order, published]
+
+  # ---------------- 单页 ----------------
+  - name: pages
+    label: 单页
+    type: group
+    items:
+      - name: about
+        label: 关于我
+        type: file
+        path: src/content/spec/about.md
+        format: yaml-frontmatter
+        fields:
+          - name: title
+            label: 标题
+            type: string
+          - name: description
+            label: 描述
+            type: text
+          - name: body
+            label: 正文
+            type: rich-text
+      - name: guestbook
+        label: 留言板
+        type: file
+        path: src/content/spec/guestbook.md
+        format: yaml-frontmatter
+        fields:
+          - name: title
+            label: 标题
+            type: string
+          - name: description
+            label: 描述
+            type: text
+          - name: body
+            label: 正文
+            type: rich-text
