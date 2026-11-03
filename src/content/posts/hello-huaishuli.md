@@ -2,6 +2,7 @@
 title: 你好，Huaishuli
 published: 2026-11-03
 description: 这里的第一篇文章：为什么又开了一个博客，以及打算在这里写些什么。
+image: /assets/images/uploads/hello-huaishuli.avif
 tags:
   - 随笔
   - 博客

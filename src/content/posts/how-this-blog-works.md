@@ -2,6 +2,7 @@
 title: 这个博客是怎么搭起来的
 published: 2026-11-03
 description: Astro + Cloudflare Pages + Pages CMS：从本地构建到线上发布，以及我怎么在浏览器里写文章。
+image: /assets/images/uploads/how-this-blog-works.avif
 tags:
   - Astro
   - Cloudflare
