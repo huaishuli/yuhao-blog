@@ -106,7 +106,118 @@ node node_modules\wrangler\bin\wrangler.js deploy
 
 ## 访问网络提示
 
-`*.workers.dev` 在当前网络（中国大陆）被 DNS 污染 + TCP 阻断，本机打不开；`*.pages.dev` 目前可正常访问，所以日常请用 <https://huaishuli.pages.dev>。需要长期稳定访问时，把域名接入 Cloudflare 后绑定到 Pages 项目（控制台 Pages → 项目 → Custom domains），并与 `site_url` 保持一致。
+`*.workers.dev` 在当前网络（中国大陆）被 DNS 污染 + TCP 阻断，本机打不开；`*.pages.dev` 目前可正常访问。国内长期访问走 <https://yuhaohuaishuli.cn>，链路是「EdgeOne 海外免费版（香港/境外节点，免备案）→ 回源 `huaishuli.pages.dev`」，见下节。
+
+## 国内访问：EdgeOne 海外免费版（免备案）
+
+域名 `yuhaohuaishuli.cn` 注册在腾讯云，NS 当前指向 DNSPod（`bike.dnspod.net` / `puding.dnspod.net`），解析记录为空——没有迁移负担。发布入口不变，仍然是 push `main` → Cloudflare Pages 构建；EdgeOne 只做大陆方向的加速层：
+
+```
+浏览器 → EdgeOne 境外节点（免备案）→ 回源 huaishuli.pages.dev（Cloudflare Pages）
+```
+
+### 1. 添加站点（约 5 分钟）
+
+1. 打开 <https://console.tencentcloud.com/edgeone>（腾讯云国际站控制台，国内站同一域名也能登），「添加站点」填 `yuhaohuaishuli.cn`
+2. 套餐选**免费版**：流量/请求不限、1 个站点、200 个加速域名、免费 HTTPS 证书（Let's Encrypt，自动续期）
+3. **加速区域必须选「全球可用区（不含中国大陆）」**——这是唯一免备案的选项；「中国大陆可用区」和「全球可用区」都要求 ICP 备案
+4. 接入模式：推荐 **NS 接入**（apex 直接下发 A 记录，不用在 DNSPod 加 CNAME/TXT）；想保留 DNSPod 解析则选 **CNAME 接入**
+
+### 2. 添加加速域名（回源配置是唯一容易踩坑的地方）
+
+「域名服务 → 域名管理 → 添加域名」，`@`（apex）和 `www` 各加一次：
+
+| 配置项 | 值 | 说明 |
+| --- | --- | --- |
+| 加速域名 | `@`、`www` | 均可加免费证书 |
+| 源站类型 | 域名 | 不要选 IP |
+| 源站地址 | `huaishuli.pages.dev` | 端口 443 |
+| 回源协议 | HTTPS | Pages 只提供 HTTPS |
+| 回源 HOST 头 | **使用源站域名** | 关键：Pages 按 Host 路由，用加速域名当 Host 会得到 404/522 |
+| 证书 | HTTPS 配置 → 免费证书 | 一键申请，自动续期 |
+
+### 3. 解析（二选一）
+
+**A. NS 接入（推荐）**：EdgeOne 给出两个 NS 地址，到 [腾讯云域名控制台](https://console.cloud.tencent.com/domain) → 我的域名 → `yuhaohuaishuli.cn` → DNS 服务器 → 选「自定义」填入。DNSPod 里现在是空的，不会丢记录；生效通常 5 分钟～2 小时。
+
+**B. CNAME 接入（保留 DNSPod）**：先做归属权验证，在 DNSPod 加：
+
+| 主机记录 | 类型 | 值 | TTL |
+| --- | --- | --- | --- |
+| `edgeonereclaim` | TXT | 控制台给出的验证值 | 600 |
+
+验证通过后，控制台会给每个加速域名分配 CNAME 目标，再在 DNSPod 加（TTL 600）：
+
+| 主机记录 | 类型 | 值 |
+| --- | --- | --- |
+| `@` | CNAME | 分配的 `xxx.edgeone...` 目标 |
+| `www` | CNAME | 同上或独立目标 |
+
+### 4. 站点侧建议配置
+
+- **强制 HTTPS** 开启（HSTS 可选，开启前确认所有子域都有证书）
+- **缓存**：HTML 保持「遵循源站」（Pages 给 HTML 的 `cache-control` 是 `max-age=0, must-revalidate`，不会缓存旧页面）；`/_astro/*` 已在 `public/_headers` 里声明 `immutable` 长缓存，EdgeOne 跟随源站即可
+- **智能压缩**：开 Gzip/Brotli
+- **www ↔ apex**：用规则引擎加一条 301，只保留一个主域
+- **404**：无需自定义错误页，Pages 自身返回真 404
+
+### 5. 用 API 自动配置（可选，代替第 1～3 节的手点）
+
+`deploy-tools/teo.mjs` 自带 TC3 签名，凭证只从环境变量读（不要写进仓库）：
+
+```powershell
+$env:TENCENTCLOUD_SECRET_ID  = "AKID..."
+$env:TENCENTCLOUD_SECRET_KEY = "..."
+node deploy-tools/teo.mjs plans                                     # 确认免费版套餐已领取，拿到 PlanId
+node deploy-tools/teo.mjs create-zone yuhaohuaishuli.cn --plan edgeone-xxx
+node deploy-tools/teo.mjs add-domain zone-xxx yuhaohuaishuli.cn --origin huaishuli.pages.dev
+node deploy-tools/teo.mjs add-domain zone-xxx www.yuhaohuaishuli.cn --origin huaishuli.pages.dev
+node deploy-tools/teo.mjs zones                                     # 复核状态与 NameServers
+```
+
+`create-zone` 默认 `Type=full`（NS 接入）、`Area=overseas`（免备案）。两种接入方式仍然绕不开的只有两件事：**改注册商 NS**（或加 CNAME/TXT），以及**领取免费套餐**——后者若账号里还没有套餐，`plans` 会直接提示。
+
+### 6. 验收与切换
+
+```powershell
+$env:PATH = "C:\Users\19352\.dsh\dsh-runtimes\dsh-primary-runtime\dependencies\node\bin;$env:PATH"
+node deploy-tools/verify-domain.mjs yuhaohuaishuli.cn
+```
+
+全绿（DNS/TLS/200/404/资源缓存都 ✓）**之后**再切站点配置，否则 canonical 会先指向一个打不开的域名：
+
+- `src/config/siteConfig.ts:51`：`site_url` 改成 `https://yuhaohuaishuli.cn`
+- `src/content/projects/huaishuli-blog.md:15`：站点地址同步改
+- 提交后等 Pages 重新构建，再跑一次 `verify-domain.mjs`，确认 `canonical` 指向新域名
+
+### 实际部署记录（2026-11-04 完成）
+
+| 项目 | 值 |
+| --- | --- |
+| 站点 ZoneId | `zone-3wzf0kkz32qq`（`yuhaohuaishuli.cn`，`Type=full`，`Area=overseas`，套餐 `edgeone-3wy0b0y3ujsk` / plan-free） |
+| NS | `ns1.qeodns.com` / `ns2.qeodns.com`（已在腾讯云域名侧用 `ModifyDomainDNS` 改好，`DomainId=domain-300x51cq`） |
+| 加速域名 | `yuhaohuaishuli.cn`（`edge-3wzf0xo3ykrz`）、`www.yuhaohuaishuli.cn`（`edge-3wzf0zg7cqyh`），均 `online` |
+| 回源 | `IP_DOMAIN` + `huaishuli.pages.dev`，`HTTPS`/443，`HostHeader=huaishuli.pages.dev` |
+| 证书 | `teo-3wzf6q9eorpa`（apex）、`teo-3wzfvcufa2wu`（www），`eofreecert`，TrustAsia，到期 2027-01-31 |
+| 边缘 IP | `43.174.246.112` / `43.174.247.112` |
+| 强制 HTTPS | `ModifyZoneSetting ForceRedirect = {Switch:on, RedirectStatusCode:301}` |
+
+API 踩坑清单（都已在本仓库 `teo.mjs` 的调用里验证过）：
+
+1. `CreateAccelerationDomain` 的 `OriginInfo.OriginType` 要大写 `IP_DOMAIN`，文档示例里的小写 `ip_domain` 会报 `InvalidParameterValue`
+2. 不传 `OriginInfo.HostHeader` 时会回落成加速域名本身，Pages 按 Host 路由 → 必须显式设成 `huaishuli.pages.dev`
+3. EdgeOne 自动建的两条 CNAME 记录初始是 `disable`，站点 active 后仍然解析不到；要 `ModifyDnsRecordsStatus {RecordsToEnable:[...]}` 手动启用
+4. `ModifyDnsRecordsStatus` 的参数名是 `RecordsToEnable`/`RecordsToDisable`，`DeleteDnsRecords` 的参数名是 `RecordIds`（只传 ZoneId 会静默成功但什么都不改）
+5. 免费证书是**按加速域名逐个申请**的，`ModifyHostsCertificate {Hosts:[一个域名], Mode:"eofreecert"}`，漏了 www 就只有 apex 有证书
+6. 改注册商 NS 用域名产品的 `ModifyDomainDNS`（`TC_SERVICE=domain`、`TC_VERSION=2018-08-08`），参数是 `DomainId` + `Dns`（不是 `DnsServers`）
+7. EdgeOne 会把源站的 `Cache-Control` 去掉再回给浏览器（`eo-cache-status: HIT` 说明边缘确实在缓存）；`public/_headers` 的 `immutable` 只对源站/Pages 生效，浏览器侧拿不到，属免费版行为
+
+### 已知限制
+
+- 免备案 = 境外节点：大陆访问通常 40–120 ms（香港），比 pages.dev 稳定得多，但达不到备案 CDN 的水平
+- 微信/QQ 内打开未备案的 `.cn` 域名可能被拦截提示，这只能靠备案解决
+- 免费版没有 HTTP/3、智能加速、独立 DDoS 防护；源站仍是 Cloudflare
+- 域名 NS 一旦改到 EdgeOne，DNSPod 的解析记录就失效；想切回按第 3 节反向操作即可
 
 ## 站点初始化状态
 

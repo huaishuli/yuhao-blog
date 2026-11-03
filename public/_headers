@@ -1,0 +1,5 @@
+# 带 hash 的构建产物：内容变了文件名必变，可以长期强缓存，减少重复访问的请求数。
+# HTML 不在这里声明，沿用 Cloudflare Pages 默认的 max-age=0, must-revalidate，
+# 这样 EdgeOne 回源时不会把旧 HTML 长时间缓存住。
+/_astro/*
+  Cache-Control: public, max-age=31536000, immutable

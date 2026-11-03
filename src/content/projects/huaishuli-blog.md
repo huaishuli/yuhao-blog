@@ -12,7 +12,7 @@ tags:
 link:
   - label: "站点"
     icon: "material-symbols:language"
-    value: "https://huaishuli.pages.dev"
+    value: "https://yuhaohuaishuli.cn"
   - label: "GitHub"
     icon: "fa7-brands:github"
     value: "https://github.com/huaishuli/yuhao-blog"
