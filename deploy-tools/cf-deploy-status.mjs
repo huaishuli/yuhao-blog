@@ -23,7 +23,7 @@ const scripts = await get(`https://api.cloudflare.com/client/v4/accounts/${accou
 console.log("scripts:", scripts.status, scripts.body?.success);
 for (const s of scripts.body?.result ?? []) console.log("  -", s.id, s.modified_on ?? "");
 
-const dep = await get(`https://api.cloudflare.com/client/v4/accounts/${account}/workers/scripts/yuhao-blog/deployments`);
+const dep = await get(`https://api.cloudflare.com/client/v4/accounts/${account}/workers/scripts/huaishuli/deployments`);
 console.log("\ndeployments:", dep.status, dep.body?.success);
 if (dep.body?.result) {
 	for (const d of dep.body.result.deployments ?? []) {
@@ -32,6 +32,6 @@ if (dep.body?.result) {
 	}
 }
 
-const vers = await get(`https://api.cloudflare.com/client/v4/accounts/${account}/workers/scripts/yuhao-blog/versions`);
+const vers = await get(`https://api.cloudflare.com/client/v4/accounts/${account}/workers/scripts/huaishuli/versions`);
 console.log("\nversions:", vers.status, vers.body?.success);
 for (const v of vers.body?.result?.items ?? []) console.log("  -", v.id, v.number, v.created_on, JSON.stringify(v.metadata?.bindings?.map((b) => b.type) ?? []));

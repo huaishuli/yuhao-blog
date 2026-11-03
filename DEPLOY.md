@@ -1,15 +1,33 @@
-# 部署说明（Cloudflare Workers 静态资源）
+# 部署说明（Cloudflare Pages + Workers）
 
 ## 线上地址
 
-- 站点：<https://firefly.yuhao-house.workers.dev>
-- Cloudflare Worker 名称：`firefly`
+| 用途 | 地址 |
+| --- | --- |
+| 正式站点（Cloudflare Pages，push 自动构建） | <https://huaishuli.pages.dev> |
+| 备用站点（Cloudflare Worker 静态资源，手动部署） | <https://huaishuli.yuhao-house.workers.dev> |
+| GitHub 仓库 | <https://github.com/huaishuli/yuhao-blog> |
+| 内容后台（Pages CMS） | <https://app.pagescms.org> |
+
 - Cloudflare 账号：`z215690442012@outlook.com`（Account ID `a724c05c7d938cb9360efb917dc73f1a`，workers.dev 子域 `yuhao-house`）
-- 部署方式：Astro 静态构建产物 `dist/` 由 Workers 的 Static Assets 直接托管（**没有**启用 `CF_WORKERS` 适配器，也不跑 SSR）
+- Pages 项目名：`huaishuli`；Worker 名：`huaishuli`
+- 部署方式：Astro 静态构建产物 `dist/`。Pages 负责自动构建，Workers 用 Static Assets 直接托管同一份 `dist/`（**没有**启用 `CF_WORKERS` 适配器，不跑 SSR）
 
-## 一键重新部署
+## 两种发布方式
 
-在仓库根目录双击或执行：
+### 1. 改内容 / 改代码后 push（推荐）
+
+```bat
+git add -A
+git commit -m "content: 写点什么"
+git push
+```
+
+push 之后 Cloudflare Pages 会自动拉取仓库、执行 `pnpm build`、把 `dist/` 发布到 <https://huaishuli.pages.dev>。构建配置在 Cloudflare 上：Build command `pnpm build`，Output directory `dist`。
+
+### 2. 本地手动部署到 Worker
+
+在仓库根目录执行：
 
 ```bat
 deploy.cmd
@@ -34,13 +52,29 @@ node node_modules\wrangler\bin\wrangler.js deploy
 
 本地开发：`pnpm dev`（默认 <http://localhost:4321>）；本地预览生产构建：`pnpm preview`。
 
+## 内容后台（Pages CMS）
+
+仓库根目录的 `.pages.yml` 定义了 Pages CMS 的后台界面：
+
+- `文章` → `src/content/posts`（frontmatter 字段全量映射，含封面图、标签、置顶、系列、密码等；正文用富文本编辑器）
+- `动态` → `src/content/dynamic`
+- `项目` → `src/content/projects`
+- `关于我` / `留言板` → `src/content/spec/about.md`、`guestbook.md`
+- 图片上传目录：`public/assets/images/uploads`，文章里引用 `/assets/images/uploads/xxx.png`
+
+使用步骤：打开 <https://app.pagescms.org> → 用 GitHub 登录 → 授权 Pages CMS 访问 `huaishuli/yuhao-blog` 仓库 → 选择该仓库 → 在左侧选集合增删改内容。保存即提交到仓库 `main` 分支，Cloudflare Pages 自动重新构建上线。
+
+已知限制：`.mdx` 文件（如 `src/content/posts/mdx-example.mdx`、`src/content/spec/friends.mdx`）不会出现在后台列表里，需要本地编辑；`posts/images`、`posts/guide` 里的图片会以文件夹形式出现，但不作为可编辑条目。
+
 ## 关键文件
 
 | 文件 | 作用 |
 | --- | --- |
-| `wrangler.jsonc` | Worker 名称、`compatibility_date: 2026-11-03`、`assets.directory: ./dist`、`not_found_handling: 404-page`（未匹配路径返回 `404.html`） |
-| `src/config/siteConfig.ts` | 站点标题 / 副标题 / `site_url` / 描述 / 导航与页面开关。`site_url` 已改为上面的 workers.dev 地址，绑定自定义域名后要同步修改并重新构建 |
-| `src/config/*Config.ts` | 侧边栏、评论、统计、字体、看板娘、页面开关等功能配置 |
+| `.pages.yml` | Pages CMS 后台配置（集合、字段、媒体目录） |
+| `wrangler.jsonc` | Worker 名称 `huaishuli`、`compatibility_date: 2026-11-03`、`assets.directory: ./dist`、`not_found_handling: 404-page` |
+| `src/config/siteConfig.ts` | 站点标题 / 副标题 / `site_url` / 描述 / 导航与页面开关 |
+| `src/config/backgroundWallpaper.ts` | 首页横幅文案（标题、打字机副标题、按钮链接）与壁纸 |
+| `src/config/profileConfig.ts` | 侧栏头像、昵称、简介、社交链接 |
 | `src/content/posts`、`src/content/dynamic` | 文章与动态内容（当前是主题自带的示例内容） |
 
 ## 工具目录 `deploy-tools/`
@@ -48,27 +82,18 @@ node node_modules\wrangler\bin\wrangler.js deploy
 部署与排查用的零依赖 Node 脚本，不参与构建、不会进 `dist/`。详见 `deploy-tools/README.md`：
 
 - `serve.mjs` — 本地起静态服务器预览 `dist/`（模拟 Cloudflare 静态托管行为）
-- `bind-domain.mjs` — 把已接入 Cloudflare 的域名绑定到 Worker `firefly`
+- `bind-domain.mjs` — 把已接入 Cloudflare 的域名绑定到 Worker `huaishuli`
 - `cf-check.mjs` / `cf-deploy-status.mjs` / `cf-list.mjs` — 用 wrangler 凭证查 Worker、部署版本、Zone
 - `download.mjs` — 断点续传下载器（当初拉源码用）
 
 ## 依赖与缓存
 
-`node_modules/` 已安装好（1175 个包）。pnpm 的全局内容仓库（store，约 1 GB）原先放在工作区外的 `.firefly-tools\pnpm-home`，已随目录清理一起删除：**不影响已装好的依赖和构建**（node_modules 里是硬链接，数据仍然有效）。只有以后 `pnpm install` 新增/更新依赖时会重新下载一遍。
+`node_modules/` 已安装好（1175 个包）。Cloudflare Pages 构建时会自行 `pnpm install` 并缓存依赖，本地不需要额外配置。
 
 ## 访问网络提示
 
-`*.workers.dev` 在当前网络（中国大陆）被 DNS 污染 + TCP 阻断（本机解析到 `174.36.228.136`，连接超时；Cloudflare 边缘 IP 也被 SNI 阻断），因此**本机无法直接打开线上地址**，部署本身是成功的（`wrangler` 上传与版本发布均返回成功，Cloudflare API 显示版本 100% 生效）。需要国内可访问时：
-
-1. 把一个已托管在 Cloudflare 的域名绑定到该 Worker（`wrangler` 或控制台 Workers → Settings → Domains & Routes → Add custom domain），然后把 `src/config/siteConfig.ts` 的 `site_url` 改成该域名并重新 `deploy.cmd`；
-2. 或临时用代理 / VPN 访问 workers.dev。
-
-当前 Cloudflare 账号下没有任何 Zone（域名），所以自定义域名需要先把域名接入 Cloudflare。
-
-## 构建产物
-
-`dist/` 约 329 个文件、22.8 MB（含 `pagefind` 搜索索引、`_astro` 资源、`og` 分享图、`rss.xml`/`atom.xml`、`sitemap`）。构建流程见 `package.json` 的 `build` 脚本：GitHub 卡片数据 → LQIP → VNDB 封面（本站未启用）→ `astro build` → 精简看板娘资源（省 15 MiB）→ 字体子集化（本站用系统字体，跳过）→ 内联脚本压缩 → Pagefind 索引。
+`*.workers.dev` 在当前网络（中国大陆）被 DNS 污染 + TCP 阻断，本机打不开；`*.pages.dev` 目前可正常访问，所以日常请用 <https://huaishuli.pages.dev>。需要长期稳定访问时，把域名接入 Cloudflare 后绑定到 Pages 项目（控制台 Pages → 项目 → Custom domains），并与 `site_url` 保持一致。
 
 ## 已知示例内容现象
 
-示例文章 `src/content/posts/firefly.md` 等把 `published` 写成 `1970-01-02`，页面上会显示这个日期；换成自己的文章或改 frontmatter 即可。
+主题自带示例文章的 `published` 是 `1970-01-02`，页面上会显示这个日期；换成自己的文章或改 frontmatter 即可。

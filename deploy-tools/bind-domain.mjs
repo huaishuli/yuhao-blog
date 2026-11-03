@@ -10,7 +10,7 @@ const token = toml.match(/oauth_token = "([^"]+)"/)?.[1];
 const account = toml.match(/account_id = "([^"]+)"/)?.[1] ?? "a724c05c7d938cb9360efb917dc73f1a";
 if (!token) throw new Error("no oauth token in wrangler config");
 const H = { Authorization: `Bearer ${token}`, "content-type": "application/json" };
-const SERVICE = "yuhao-blog";
+const SERVICE = "huaishuli";
 
 const hostnames = process.argv.slice(2);
 if (!hostnames.length) {

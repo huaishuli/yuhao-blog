@@ -48,7 +48,7 @@ export const siteConfig: SiteConfig = {
 	subtitle: "Yuhao 的个人博客",
 
 	// 站点 URL
-	site_url: "https://yuhao-blog.pages.dev",
+	site_url: "https://huaishuli.pages.dev",
 
 	// 站点描述
 	description:

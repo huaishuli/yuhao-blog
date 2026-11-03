@@ -20,7 +20,7 @@ async function get(url) {
 	return { status: r.status, body };
 }
 
-const script = await get(`https://api.cloudflare.com/client/v4/accounts/${account}/workers/scripts/yuhao-blog`);
+const script = await get(`https://api.cloudflare.com/client/v4/accounts/${account}/workers/scripts/huaishuli`);
 console.log("script:", script.status, "success:", script.body?.success, "id:", script.body?.result?.id, "modified:", script.body?.result?.modified_on);
 if (script.body?.errors) console.log("errors:", JSON.stringify(script.body.errors));
 
