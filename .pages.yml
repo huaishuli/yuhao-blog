@@ -39,7 +39,7 @@ content:
       - name: category
         label: 分类
         type: string
-        description: 例如「文章示例」「博客指南」
+        description: 例如「技术」「日常」「折腾记录」
       - name: tags
         label: 标签
         type: string
@@ -59,7 +59,8 @@ content:
       - name: slug
         label: 链接别名
         type: string
-        description: 决定文章的文件名和网址，建议用英文短横线（如 my-first-post）；改成中文会被编码进网址
+        required: true
+        description: 决定文章的文件名和网址，用英文短横线（如 my-first-post）
       - name: author
         label: 作者
         type: string
@@ -173,6 +174,8 @@ content:
       - name: slug
         label: 链接别名
         type: string
+        required: true
+        description: 决定项目页的文件名和网址，用英文短横线
       - name: published
         label: 日期
         type: date
