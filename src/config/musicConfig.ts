@@ -3,10 +3,10 @@ import type { MusicPlayerConfig } from "../types/musicConfig";
 // 音乐播放器配置
 export const musicPlayerConfig: MusicPlayerConfig = {
 	// 是否在导航栏显示音乐播放器入口
-	showInNavbar: true,
+	showInNavbar: false,
 
 	// 是否在侧边栏显示音乐播放器组件
-	showInSidebar: true,
+	showInSidebar: false,
 
 	// 使用方式："meting" 使用 Meting API，"local" 使用本地音乐列表
 	mode: "local",
@@ -47,13 +47,14 @@ export const musicPlayerConfig: MusicPlayerConfig = {
 	// lrc: "[00:00.00]歌词内容...",
 	local: {
 		playlist: [
-			{
-				name: "使一颗心免于哀伤",
-				artist: "知更鸟 / HOYO-MiX / Chevy",
-				url: "/assets/music/使一颗心免于哀伤-哼唱.mp3",
-				cover: "/assets/music/cover/109951169585655912.webp",
-				lrc: "",
-			},
+			// 示例条目（已停用）：
+			// {
+			// 	name: "歌名",
+			// 	artist: "歌手",
+			// 	url: "/assets/music/song.mp3",
+			// 	cover: "/assets/music/cover/song.webp",
+			// 	lrc: "",
+			// },
 		],
 	},
 };

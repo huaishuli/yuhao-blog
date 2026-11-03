@@ -38,6 +38,8 @@ const SKIP_DIRS = new Set([
 const SKIP_FILES = [
 	/^deploy-tools\/\.chrome-tmp\//,
 	/^deploy-tools\/.*\.(png|log)$/,
+	/^deploy-tools\/_/,
+	/^deploy-tools\/\./,
 	/^\.dev\.vars$/,
 	/^\.git-askpass/,
 ];
