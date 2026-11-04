@@ -90,22 +90,23 @@ export const siteConfig: SiteConfig = {
 	// Favicon 配置
 	// 如果启用了OpenGraph图片功能，数组中需要包含png格式的favicon图标
 	// 图标取自站点头像插画，由 deploy-tools/brand-assets.py 生成
+	// 后面带的 ?v=2 是缓存版本号：换了图标就把数字加一，浏览器与 EdgeOne 才会重新拉取
 	favicon: [
 		{
 			// 图标文件路径（192 排在最前，同时用作 apple-touch-icon 与 publisher logo）
-			src: "/favicon/huaishuli-light-192.png",
+			src: "/favicon/huaishuli-light-192.png?v=2",
 			sizes: "192x192",
 		},
 		{
-			src: "/favicon/huaishuli-light-180.png",
+			src: "/favicon/huaishuli-light-180.png?v=2",
 			sizes: "180x180",
 		},
 		{
-			src: "/favicon/huaishuli-light-128.png",
+			src: "/favicon/huaishuli-light-128.png?v=2",
 			sizes: "128x128",
 		},
 		{
-			src: "/favicon/huaishuli-light-32.png",
+			src: "/favicon/huaishuli-light-32.png?v=2",
 			sizes: "32x32",
 		},
 	],
