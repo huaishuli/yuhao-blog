@@ -224,7 +224,7 @@ API 踩坑清单（都已在本仓库 `teo.mjs` 的调用里验证过）：
 
 - `siteConfig.siteStartDate` 设为 `2026-11-03`（侧栏「运行时长」从这天开始算）
 - 内容：2 篇自有文章、4 条动态、1 个项目；相册 `acg-2026`（二次元收藏）
-- favicon 由站点头像插画生成（`deploy-tools/brand-assets.py` 从 `src/assets/images/avatar.avif` 裁切头部特写，输出到 `public/favicon/huaishuli-*.png`）；换头像后重跑该脚本即可
+- favicon 由站点头像插画生成（`deploy-tools/brand-assets.py` 把 `src/assets/images/avatar.avif` 这张 1024×1024 方图缩放成各尺寸，原图自带圆角与透明边缘，脚本不再额外裁切或加遮罩）；换头像后重跑该脚本，并把 `src/config/siteConfig.ts` 里 favicon 的 `?v=` 版本号加一
 - 看板娘（pio）默认关闭，spine 模型目录已清空，需要时自备模型放到 `public/pio/models/spine/<名称>/` 再改 `src/config/pioConfig.ts`
 
 
