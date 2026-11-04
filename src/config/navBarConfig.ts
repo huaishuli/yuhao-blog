@@ -42,9 +42,6 @@ const getDynamicNavBarConfig = (): NavBarConfig => {
 		url: "#",
 		icon: "material-symbols:group",
 		children: [
-			// 友链
-			LinkPresets.Friends,
-
 			// 留言
 			LinkPresets.Guestbook,
 		],
