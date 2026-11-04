@@ -43,8 +43,6 @@ export const backgroundWallpaper: BackgroundWallpaperConfig = {
 			"assets/images/MyWallpaper/bg2.jpg",
 			"assets/images/MyWallpaper/bg3.jpg",
 			"assets/images/MyWallpaper/bg4.jpg",
-			"assets/images/MyWallpaper/bg5.jpg",
-			"assets/images/MyWallpaper/bg6.jpg",
 		],
 		// 移动背景图片（支持单张或多张随机）
 		// 手机端沿用主题自带的竖图，桌面端用 MyWallpaper 里的新照片
