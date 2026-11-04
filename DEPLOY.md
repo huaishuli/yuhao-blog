@@ -225,3 +225,14 @@ API 踩坑清单（都已在本仓库 `teo.mjs` 的调用里验证过）：
 - 内容：2 篇自有文章、4 条动态、1 个项目；相册 `acg-2026`（二次元收藏）
 - favicon 是程序生成的「H」渐变图标（`public/favicon/huaishuli-*.png`），要换直接替换这些文件
 - 看板娘（pio）默认关闭，spine 模型目录已清空，需要时自备模型放到 `public/pio/models/spine/<名称>/` 再改 `src/config/pioConfig.ts`
+
+
+## 2026-11-04：GitHub 自动构建通道故障与迁移
+
+原 Pages 项目 `huaishuli` 的 GitHub 触发构建自 2026-11-03 14:56 UTC 起全部卡在 `initialize` 阶段（平台侧，非代码/权限问题），导致 Pages CMS 的改动无法自动上线。
+处理：新建 Pages 项目 `huaishuli-site`（同仓库 `huaishuli/yuhao-blog`、`main` 分支、`pnpm build` → `dist`、build caching 开启），构建正常；EdgeOne 两个加速域名的源站已切到 `huaishuli-site.pages.dev`（回源 HOST 头同为源站域名）。
+
+- 新项目默认域名：`https://huaishuli-site.pages.dev`
+- 旧项目 `huaishuli` 保留但已非源站，`huaishuli.pages.dev` 仍是旧部署，可择机删除
+- 若以后再遇到构建卡 `initialize`：直接新建项目迁移，不要反复 retry（retry 会发布旧内容）
+- 源站切换命令：EdgeOne `ModifyAccelerationDomain`，`OriginInfo.Origin` 与 `HostHeader` 必须一起改
