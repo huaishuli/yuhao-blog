@@ -90,21 +90,8 @@ const getDynamicNavBarConfig = (): NavBarConfig => {
 		],
 	});
 
-	// 自定义导航栏链接
-	links.push({
-		name: "链接",
-		url: "#",
-		icon: "material-symbols:link",
-		// 子菜单
-		children: [
-			{
-				name: "GitHub",
-				url: "https://github.com/huaishuli",
-				external: true,
-				icon: "fa7-brands:github",
-			},
-		],
-	});
+	// 友链
+	links.push(LinkPresets.Friends);
 
 	// 需要额外导航时在这里追加，例如：
 	// links.push({

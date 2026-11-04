@@ -97,9 +97,9 @@ export const backgroundWallpaper: BackgroundWallpaperConfig = {
 			// 图标支持 Iconify 格式：fa7-brands:github、fa7-solid:envelope、mdi:rss 等
 			links: [
 				{
-					name: "GitHub",
-					icon: "fa7-brands:github",
-					url: "https://github.com/huaishuli",
+					name: "友链",
+					icon: "material-symbols:link-2-rounded",
+					url: "/friends/",
 					showName: true,
 				},
 			],
