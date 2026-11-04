@@ -115,4 +115,31 @@ export const booknavConfig: BooknavGroup[] = [
 			},
 		],
 	},
+	{
+		id: "resource",
+		name: "资源",
+		icon: "material-symbols:folder-open-rounded",
+		desc: "下载与资源类站点",
+		weight: 70,
+		items: [
+			{
+				title: "软仓",
+				url: "https://www.ruancang.net/",
+				desc: "软件与游戏资源仓库",
+				weight: 10,
+			},
+			{
+				title: "歌曲宝",
+				url: "https://www.gequbao.com/",
+				desc: "在线搜歌与下载",
+				weight: 9,
+			},
+			{
+				title: "风灵月影",
+				url: "https://flingtrainer.com/",
+				desc: "游戏修改器与存档",
+				weight: 8,
+			},
+		],
+	},
 ];
