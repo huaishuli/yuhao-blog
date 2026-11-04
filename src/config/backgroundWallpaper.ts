@@ -37,24 +37,24 @@ export const backgroundWallpaper: BackgroundWallpaperConfig = {
 	 */
 	src: {
 		// 桌面背景图片（支持单张或多张随机）
-		// desktop: "assets/images/DesktopWallpaper/d1.avif",
+		// desktop: "assets/images/MyWallpaper/bg1.jpg",
 		desktop: [
-			"assets/images/DesktopWallpaper/d1.avif",
-			"assets/images/DesktopWallpaper/d2.avif",
-			"assets/images/DesktopWallpaper/d3.avif",
-			"assets/images/DesktopWallpaper/d4.avif",
-			"assets/images/DesktopWallpaper/d5.avif",
-			"assets/images/DesktopWallpaper/d6.avif",
+			"assets/images/MyWallpaper/bg1.jpg",
+			"assets/images/MyWallpaper/bg2.jpg",
+			"assets/images/MyWallpaper/bg3.jpg",
+			"assets/images/MyWallpaper/bg4.jpg",
+			"assets/images/MyWallpaper/bg5.jpg",
+			"assets/images/MyWallpaper/bg6.jpg",
 		],
 		// 移动背景图片（支持单张或多张随机）
-		// mobile: "assets/images/MobileWallpaper/m1.avif",
+		// 目前复用同一组横图，手机会居中裁切；换竖图只需替换这里的路径
 		mobile: [
-			"assets/images/MobileWallpaper/m1.avif",
-			"assets/images/MobileWallpaper/m2.avif",
-			"assets/images/MobileWallpaper/m3.avif",
-			"assets/images/MobileWallpaper/m4.avif",
-			"assets/images/MobileWallpaper/m5.avif",
-			"assets/images/MobileWallpaper/m6.avif",
+			"assets/images/MyWallpaper/bg1.jpg",
+			"assets/images/MyWallpaper/bg2.jpg",
+			"assets/images/MyWallpaper/bg3.jpg",
+			"assets/images/MyWallpaper/bg4.jpg",
+			"assets/images/MyWallpaper/bg5.jpg",
+			"assets/images/MyWallpaper/bg6.jpg",
 		],
 		// 背景视频播放地址
 		// 支持单个视频路径（字符串）或多个视频循环（数组，参考上面壁纸配置）
