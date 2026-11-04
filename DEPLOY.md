@@ -67,6 +67,7 @@ node node_modules\wrangler\bin\wrangler.js deploy
 - `文章` → `src/content/posts`（frontmatter 字段全量映射，含封面图、标签、置顶、系列、密码等；正文用富文本编辑器；新建时「链接别名」必填，它决定文件名和网址，如 `my-first-post` → `/posts/my-first-post/`）
 - `动态` → `src/content/dynamic`（文件名按 `年-月-日-时分秒.md` 自动生成）
 - `项目` → `src/content/projects`
+- `相册` → `src/content/gallery`（每个相册一个 `.md`：名称、别名、日期、地点、标签、封面、访问密码；照片既可在「照片」里从媒体库多选，也可以留空、直接把图片丢进 `public/gallery/<别名>/` 目录，`cover.*` 会自动当封面）
 - `关于我` / `留言板` → `src/content/spec/about.md`、`guestbook.md`
 - 图片上传目录：`public/assets/images/uploads`，后台选图后自动写入 `/assets/images/uploads/xxx.png`
 

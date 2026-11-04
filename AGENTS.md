@@ -35,4 +35,4 @@ Do not commit secrets, tokens, or service keys in config files. Keep deployment-
 
 ## Content Workflow
 
-Posts live in `src/content/posts`, microblog entries in `src/content/dynamic`, projects in `src/content/projects`, and special pages in `src/content/spec`. The same content is editable through Pages CMS, whose schema is defined in `.pages.yml`; keep that file in sync when adding frontmatter fields. Pushes to `main` rebuild the site on Cloudflare Pages automatically.
+Posts live in `src/content/posts`, microblog entries in `src/content/dynamic`, projects in `src/content/projects`, photo albums in `src/content/gallery`, and special pages in `src/content/spec`. The same content is editable through Pages CMS, whose schema is defined in `.pages.yml`; keep that file in sync when adding frontmatter fields. Pushes to `main` rebuild the site on Cloudflare Pages automatically.

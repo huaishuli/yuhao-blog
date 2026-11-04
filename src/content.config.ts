@@ -54,6 +54,20 @@ type ProjectData = {
 	lang: string;
 };
 
+type GalleryData = {
+	title: string;
+	slug: string;
+	description: string;
+	location: string;
+	date?: Date;
+	tags: string[];
+	cover: string;
+	photos: string[];
+	password: string;
+	passwordHint: string;
+	draft: boolean;
+};
+
 type ContentCollection<T> = CollectionConfig<
 	ZodType<T>,
 	ReturnType<typeof glob>
@@ -130,14 +144,41 @@ const projectsCollection: ContentCollection<ProjectData> = defineCollection({
 	}),
 });
 
+// 兼容 CMS 里清空日期时写入的空字符串
+const optionalDate = z.preprocess((value) => {
+	if (value === null || value === undefined || value === "") return undefined;
+	if (value instanceof Date) return value;
+	const parsed = new Date(String(value));
+	return Number.isNaN(parsed.getTime()) ? undefined : parsed;
+}, z.date().optional());
+
+const galleryCollection: ContentCollection<GalleryData> = defineCollection({
+	loader: glob({ pattern: "**/*.md", base: "./src/content/gallery" }),
+	schema: z.object({
+		title: z.string(),
+		slug: z.string(),
+		description: z.string().optional().default(""),
+		location: z.string().optional().default(""),
+		date: optionalDate,
+		tags: z.array(z.string()).optional().default([]),
+		cover: z.string().optional().default(""),
+		photos: z.array(z.string()).optional().default([]),
+		password: z.string().optional().default(""),
+		passwordHint: z.string().optional().default(""),
+		draft: z.boolean().optional().default(false),
+	}),
+});
+
 export const collections: {
 	dynamic: typeof dynamicCollection;
 	posts: typeof postsCollection;
 	spec: typeof specCollection;
 	projects: typeof projectsCollection;
+	gallery: typeof galleryCollection;
 } = {
 	dynamic: dynamicCollection,
 	posts: postsCollection,
 	spec: specCollection,
 	projects: projectsCollection,
+	gallery: galleryCollection,
 };

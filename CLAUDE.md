@@ -62,6 +62,7 @@ Defined in `src/content.config.ts`:
 - `spec` — special pages (about, guestbook, friends)
 - `dynamic` — microblog entries (`.md`) with frontmatter: published, pinned, location
 - `projects` — project showcase entries
+- `gallery` — photo albums (`.md` per album) with frontmatter: title, slug, date, location, tags, cover, photos, password, passwordHint, draft; if `photos` is empty the album falls back to scanning `public/gallery/<slug>/`
 
 ### Key Directories
 

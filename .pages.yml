@@ -257,6 +257,69 @@ content:
       fields: [title, status, published]
       sort: [order, published]
 
+  # ---------------- 相册 ----------------
+  - name: gallery
+    label: 相册
+    type: collection
+    path: src/content/gallery
+    format: yaml-frontmatter
+    filename:
+      template: "{fields.slug}.md"
+      field: create
+    fields:
+      - name: title
+        label: 相册名称
+        type: string
+        required: true
+      - name: slug
+        label: 相册别名
+        type: string
+        required: true
+        description: 决定网址（/gallery/别名/）和图片目录（public/gallery/别名/），用英文短横线
+      - name: date
+        label: 日期
+        type: date
+        options:
+          format: yyyy-MM-dd
+      - name: location
+        label: 拍摄地点
+        type: string
+      - name: description
+        label: 描述
+        type: text
+      - name: tags
+        label: 标签
+        type: string
+        list: true
+        description: 用于相册列表的标签筛选
+      - name: cover
+        label: 封面图
+        type: image
+        description: 留空则自动使用 public/gallery/别名/cover.* 或第一张图
+      - name: photos
+        label: 照片
+        type: image
+        list: true
+        description: 从媒体库选图（上传后保存在 assets/images/uploads）；留空则读取 public/gallery/别名/ 目录里的图片
+      - name: password
+        label: 访问密码
+        type: string
+        description: 填写后相册内容会被加密，需要密码查看
+      - name: passwordHint
+        label: 密码提示
+        type: string
+      - name: draft
+        label: 隐藏相册
+        type: boolean
+        default: false
+    view:
+      primary: title
+      fields: [title, date, location]
+      sort: [date]
+      default:
+        sort: date
+        order: desc
+
   # ---------------- 单页 ----------------
   - name: pages
     label: 单页

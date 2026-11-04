@@ -51,6 +51,30 @@ export function scanAlbumPhotos(albumId: string): string[] {
 }
 
 /**
+ * 获取相册照片列表
+ * 优先使用 CMS/内容里手填的 photos，留空时回退到 public/gallery/<id>/ 目录扫描
+ */
+export function resolveAlbumPhotos(
+	album: GalleryAlbum,
+	photos?: string[],
+): string[] {
+	const manual = (photos ?? [])
+		.map((photo) => (photo || "").trim())
+		.filter(Boolean)
+		.map((photo) => withBase(photo));
+
+	if (manual.length === 0) return scanAlbumPhotos(album.id);
+
+	// 将 cover.* 排到第一位
+	const coverIdx = manual.findIndex((photo) => /\/cover\.[^/]+$/i.test(photo));
+	if (coverIdx > 0) {
+		const [coverPhoto] = manual.splice(coverIdx, 1);
+		manual.unshift(coverPhoto);
+	}
+	return manual;
+}
+
+/**
  * 获取相册封面图
  * 优先级：手动指定 > cover.* 文件 > 第一张图片
  */

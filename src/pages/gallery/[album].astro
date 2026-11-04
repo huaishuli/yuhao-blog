@@ -1,4 +1,5 @@
 ---
+import { getCollection } from "astro:content";
 import { Icon } from "astro-icon/components";
 import EncryptedContent from "@/components/features/EncryptedContent.astro";
 import PhotoCard from "@/components/pages/gallery/PhotoCard.astro";
@@ -6,8 +7,9 @@ import { galleryConfig, siteConfig } from "@/config";
 import I18nKey from "@/i18n/i18nKey";
 import { i18n } from "@/i18n/translation";
 import MainGridLayout from "@/layouts/MainGridLayout.astro";
+import type { GalleryAlbum } from "@/types/galleryConfig";
 import "@/styles/pages/gallery-album.css";
-import { getAlbumCover, scanAlbumPhotos } from "@/utils/gallery-utils";
+import { getAlbumCover, resolveAlbumPhotos } from "@/utils/gallery-utils";
 import { getLqipProps } from "@/utils/lqip-utils";
 import { url } from "@/utils/url-utils";
 
@@ -16,20 +18,38 @@ if (!siteConfig.pages.gallery) {
 	return Astro.redirect("/404/");
 }
 
-export function getStaticPaths() {
-	return galleryConfig.albums.map((album) => ({
-		params: { album: album.id },
-	}));
+export async function getStaticPaths() {
+	const entries = await getCollection("gallery");
+	return entries
+		.filter((entry) => !entry.data.draft)
+		.map((entry) => ({ params: { album: entry.data.slug } }));
 }
 
 const { album: albumId } = Astro.params;
-const albumMeta = galleryConfig.albums.find((a) => a.id === albumId);
 
-if (!albumMeta) {
+// 相册数据来自 src/content/gallery（可在 Pages CMS 中管理）
+const entries = await getCollection("gallery");
+const entry = entries.find(
+	(item) => item.data.slug === albumId && !item.data.draft,
+);
+
+if (!entry) {
 	return Astro.redirect("/404/");
 }
 
-const photos = scanAlbumPhotos(albumMeta.id);
+const albumMeta: GalleryAlbum = {
+	id: entry.data.slug,
+	name: entry.data.title,
+	description: entry.data.description,
+	date: entry.data.date ? entry.data.date.toISOString().slice(0, 10) : undefined,
+	location: entry.data.location,
+	tags: entry.data.tags,
+	cover: entry.data.cover,
+	password: entry.data.password,
+	passwordHint: entry.data.passwordHint,
+};
+
+const photos = resolveAlbumPhotos(albumMeta, entry.data.photos);
 const cover = getAlbumCover(albumMeta, photos);
 const columnWidth = galleryConfig.columnWidth || 240;
 

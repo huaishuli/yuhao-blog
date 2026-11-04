@@ -1,12 +1,14 @@
 ---
+import { getCollection } from "astro:content";
 import { Icon } from "astro-icon/components";
 import AlbumCard from "@/components/pages/gallery/AlbumCard.astro";
-import { galleryConfig, siteConfig } from "@/config";
+import { siteConfig } from "@/config";
 import I18nKey from "@/i18n/i18nKey";
 import { i18n } from "@/i18n/translation";
 import MainGridLayout from "@/layouts/MainGridLayout.astro";
+import type { GalleryAlbum } from "@/types/galleryConfig";
 import "@/styles/pages/common.css";
-import { getAlbumCover, scanAlbumPhotos } from "@/utils/gallery-utils";
+import { getAlbumCover, resolveAlbumPhotos } from "@/utils/gallery-utils";
 import "@/styles/pages/card-grid.css";
 
 // 检查页面是否启用
@@ -17,12 +19,30 @@ if (!siteConfig.pages.gallery) {
 const title = i18n(I18nKey.gallery);
 const description = i18n(I18nKey.galleryDescription);
 
-// 构建相册数据（扫描照片、获取封面）
-const albums = galleryConfig.albums.map((album) => {
-	const photos = scanAlbumPhotos(album.id);
-	const cover = getAlbumCover(album, photos);
-	return { ...album, cover, photoCount: photos.length };
-});
+// 相册数据来自 src/content/gallery（可在 Pages CMS 中管理）
+const entries = await getCollection("gallery");
+
+const albums = entries
+	.filter((entry) => !entry.data.draft)
+	.map((entry) => {
+		const album: GalleryAlbum = {
+			id: entry.data.slug,
+			name: entry.data.title,
+			description: entry.data.description,
+			date: entry.data.date
+				? entry.data.date.toISOString().slice(0, 10)
+				: undefined,
+			location: entry.data.location,
+			tags: entry.data.tags,
+			cover: entry.data.cover,
+			password: entry.data.password,
+			passwordHint: entry.data.passwordHint,
+		};
+		const photos = resolveAlbumPhotos(album, entry.data.photos);
+		const cover = getAlbumCover(album, photos);
+		return { ...album, cover, photoCount: photos.length };
+	})
+	.sort((a, b) => (b.date || "").localeCompare(a.date || ""));
 
 // 收集所有标签用于筛选
 const allTags = [...new Set(albums.flatMap((a) => a.tags || []))].sort();
