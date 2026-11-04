@@ -65,33 +65,22 @@ export const sidebarLayoutConfig: SidebarLayoutConfig = {
 			showOnPostPage: true,
 		},
 		{
-			// 组件类型：分类组件
-			type: "categories",
+			// 组件类型：日历组件
+			type: "calendar",
 			// 是否启用该组件
 			enable: true,
+			// 是否显示组件标题
+			showTitle: false,
 			// 组件位置
 			position: "sticky",
 			// 是否在文章详情页显示
-			showOnPostPage: true,
+			showOnPostPage: false,
 			// 组件专属配置
 			specificConfig: {
-				// 折叠阈值：当分类数量超过>5个时自动折叠
-				collapseThreshold: 5,
-			},
-		},
-		{
-			// 组件类型：标签组件
-			type: "tags",
-			// 是否启用该组件
-			enable: true,
-			// 组件位置
-			position: "sticky",
-			// 是否在文章详情页显示
-			showOnPostPage: true,
-			// 组件专属配置
-			specificConfig: {
-				// 折叠阈值：当标签数量超过>10个时自动折叠
-				collapseThreshold: 10,
+				calendar: {
+					// 是否显示年度文章热力图
+					showHeatmap: true,
+				},
 			},
 		},
 	],
@@ -139,25 +128,6 @@ export const sidebarLayoutConfig: SidebarLayoutConfig = {
 				siteInfo: {
 					// 未能识别的构建平台回退显示文本，可自定义
 					unknownBuildPlatform: "Unknown CI",
-				},
-			},
-		},
-		{
-			// 组件类型：日历组件
-			type: "calendar",
-			// 是否启用该组件
-			enable: true,
-			// 是否显示组件标题
-			showTitle: false,
-			// 组件位置
-			position: "sticky",
-			// 是否在文章详情页显示
-			showOnPostPage: false,
-			// 组件专属配置
-			specificConfig: {
-				calendar: {
-					// 是否显示年度文章热力图
-					showHeatmap: true,
 				},
 			},
 		},
@@ -254,7 +224,7 @@ export const sidebarLayoutConfig: SidebarLayoutConfig = {
 			// 组件类型：分类组件
 			type: "categories",
 			// 是否启用该组件
-			enable: true,
+			enable: false,
 			// 是否在文章详情页显示
 			showOnPostPage: true,
 			// 组件专属配置
@@ -267,7 +237,7 @@ export const sidebarLayoutConfig: SidebarLayoutConfig = {
 			// 组件类型：标签组件
 			type: "tags",
 			// 是否启用该组件
-			enable: true,
+			enable: false,
 			// 是否在文章详情页显示
 			showOnPostPage: true,
 			// 组件专属配置
