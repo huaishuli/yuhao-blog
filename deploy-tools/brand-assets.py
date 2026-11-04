@@ -1,56 +1,58 @@
-"""Generate Huaishuli brand favicons (light + dark variants) from the letter H."""
+"""Generate Huaishuli favicons from the site avatar illustration.
+
+Source image: src/assets/images/avatar.avif (1024x1024, character portrait).
+A square head-and-shoulders crop is rendered into every favicon size; the
+light/dark variants share the same artwork, so a single illustration serves
+both colour schemes.
+"""
 
 from pathlib import Path
-from PIL import Image, ImageDraw, ImageFont
 
-OUT = Path(r"D:\My_task_dsh\My-web_1\public\favicon")
-FONT = r"C:\Windows\Fonts\segoeuib.ttf"
+from PIL import Image, ImageDraw, ImageEnhance, ImageFilter
+
+ROOT = Path(__file__).resolve().parent.parent
+SRC = ROOT / "src" / "assets" / "images" / "avatar.avif"
+OUT = ROOT / "public" / "favicon"
 SIZES = [32, 128, 180, 192, 512]
 
-LIGHT_TOP, LIGHT_BOTTOM = (111, 232, 205), (23, 158, 130)
-DARK_TOP, DARK_BOTTOM = (30, 60, 55), (12, 28, 26)
-LIGHT_LETTER = (255, 255, 255)
-DARK_LETTER = (125, 240, 214)
+# Square crop (left, top, size) on the 1024x1024 avatar: full horns, face centred.
+CROP = (350, 100, 400)
+CORNER_RADIUS_RATIO = 0.22
 
 
-def gradient(size, top, bottom):
-    img = Image.new("RGB", (size, size), top)
-    d = ImageDraw.Draw(img)
-    for y in range(size):
-        t = y / max(size - 1, 1)
-        c = tuple(round(top[i] + (bottom[i] - top[i]) * t) for i in range(3))
-        d.line([(0, y), (size, y)], fill=c)
-    return img
+def master_image() -> Image.Image:
+    img = Image.open(SRC).convert("RGBA")
+    if img.width != 1024 or img.height != 1024:
+        img = img.resize((1024, 1024), Image.LANCZOS)
+    left, top, size = CROP
+    img = img.crop((left, top, left + size, top + size)).resize((1024, 1024), Image.LANCZOS)
+    img = ImageEnhance.Color(img).enhance(1.08)
+    return img.filter(ImageFilter.UnsharpMask(radius=1.2, percent=55, threshold=2))
 
 
-def rounded_mask(size):
+def rounded(img: Image.Image, size: int) -> Image.Image:
+    # Supersampled mask for smooth corners at small sizes.
     mask = Image.new("L", (size * 4, size * 4), 0)
     d = ImageDraw.Draw(mask)
-    d.rounded_rectangle([0, 0, size * 4 - 1, size * 4 - 1], radius=round(size * 4 * 0.24), fill=255)
-    return mask.resize((size, size), Image.LANCZOS)
+    d.rounded_rectangle(
+        [0, 0, size * 4 - 1, size * 4 - 1],
+        radius=round(size * 4 * CORNER_RADIUS_RATIO),
+        fill=255,
+    )
+    mask = mask.resize((size, size), Image.LANCZOS)
+    out = img.resize((size, size), Image.LANCZOS).convert("RGBA")
+    out.putalpha(mask)
+    return out
 
 
-def letter_layer(size, color):
-    layer = Image.new("RGBA", (size, size), (255, 255, 255, 0))
-    d = ImageDraw.Draw(layer)
-    font = ImageFont.truetype(FONT, round(size * 0.62))
-    bbox = d.textbbox((0, 0), "H", font=font)
-    w, h = bbox[2] - bbox[0], bbox[3] - bbox[1]
-    d.text(((size - w) / 2 - bbox[0], (size - h) / 2 - bbox[1]), "H", font=font, fill=color)
-    return layer
-
-
-def build(size, top, bottom, letter):
-    base = gradient(size, top, bottom).convert("RGBA")
-    base.putalpha(rounded_mask(size))
-    base.alpha_composite(letter_layer(size, letter))
-    return base
-
+master = master_image()
 
 for size in SIZES:
-    build(size, LIGHT_TOP, LIGHT_BOTTOM, LIGHT_LETTER).save(OUT / f"huaishuli-light-{size}.png")
-    build(size, DARK_TOP, DARK_BOTTOM, DARK_LETTER).save(OUT / f"huaishuli-dark-{size}.png")
+    icon = rounded(master, size)
+    icon.save(OUT / f"huaishuli-light-{size}.png", optimize=True)
+    icon.save(OUT / f"huaishuli-dark-{size}.png", optimize=True)
 
-build(32, LIGHT_TOP, LIGHT_BOTTOM, LIGHT_LETTER).save(OUT / "huaishuli-32.png")
-build(192, LIGHT_TOP, LIGHT_BOTTOM, LIGHT_LETTER).save(OUT / "huaishuli-192.png")
+rounded(master, 32).save(OUT / "huaishuli-32.png", optimize=True)
+rounded(master, 192).save(OUT / "huaishuli-192.png", optimize=True)
+
 print("generated:", sorted(p.name for p in OUT.glob("huaishuli*")))
