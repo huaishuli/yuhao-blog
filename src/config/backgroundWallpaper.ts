@@ -95,14 +95,14 @@ export const backgroundWallpaper: BackgroundWallpaperConfig = {
 			linksEnable: true,
 			// 首页横幅标题下方的链接图标（可选，支持 showName 显示文字）
 			// 图标支持 Iconify 格式：fa7-brands:github、fa7-solid:envelope、mdi:rss 等
-			links: [
-				{
-					name: "友链",
-					icon: "material-symbols:link-2-rounded",
-					url: "/friends/",
-					showName: true,
-				},
-			],
+			// 目前不展示任何图标（友链入口保留在导航栏），需要时按下面格式填回：
+			// {
+			// 	name: "友链",
+			// 	icon: "material-symbols:link-2-rounded",
+			// 	url: "/friends/",
+			// 	showName: true,
+			// },
+			links: [],
 		},
 		// 壁纸轮播配置，横幅壁纸和全屏壁纸共享，仅在配置多张图片时生效
 		carousel: {
