@@ -17,8 +17,8 @@ export const musicPlayerConfig: MusicPlayerConfig = {
 	// 播放模式：'list'=列表循环, 'one'=单曲循环, 'random'=随机播放
 	playMode: "list",
 
-	// 是否启用歌词（本地曲目没有 .lrc 文件，故关闭）
-	showLyrics: false,
+	// 是否启用歌词（23 首均带 .lrc，放在 public/assets/music/lrc/）
+	showLyrics: true,
 
 	// Meting API 配置（mode 为 "meting" 时使用，当前已在本地模式下停用）
 	meting: {
@@ -55,7 +55,7 @@ export const musicPlayerConfig: MusicPlayerConfig = {
 				artist: "Blue",
 				url: "/assets/music/blue-alive.mp3",
 				cover: "/assets/music/cover/blue-alive.jpg",
-				lrc: "",
+				lrc: "/assets/music/lrc/blue-alive.lrc",
 			},
 			{
 				// 3:38 · 8.3MB
@@ -63,7 +63,7 @@ export const musicPlayerConfig: MusicPlayerConfig = {
 				artist: "Bruno Mars",
 				url: "/assets/music/bruno-mars-talking-to-the-moon.mp3",
 				cover: "/assets/music/cover/bruno-mars-talking-to-the-moon.jpg",
-				lrc: "",
+				lrc: "/assets/music/lrc/bruno-mars-talking-to-the-moon.lrc",
 			},
 			{
 				// 4:14 · 9.7MB
@@ -71,7 +71,7 @@ export const musicPlayerConfig: MusicPlayerConfig = {
 				artist: "Charlie Puth / Selena Gomez / Mr. Collipark",
 				url: "/assets/music/charlie-puth-we-don-t-talk-anymore-mr-collipark-remix.mp3",
 				cover: "/assets/music/cover/charlie-puth-we-don-t-talk-anymore-mr-collipark-remix.jpg",
-				lrc: "",
+				lrc: "/assets/music/lrc/charlie-puth-we-don-t-talk-anymore-mr-collipark-remix.lrc",
 			},
 			{
 				// 4:54 · 11.5MB
@@ -79,7 +79,7 @@ export const musicPlayerConfig: MusicPlayerConfig = {
 				artist: "Emmelie de Forest",
 				url: "/assets/music/emmelie-de-forest-who-loves-you.mp3",
 				cover: "/assets/music/cover/emmelie-de-forest-who-loves-you.jpg",
-				lrc: "",
+				lrc: "/assets/music/lrc/emmelie-de-forest-who-loves-you.lrc",
 			},
 			{
 				// 2:43 · 6.5MB
@@ -87,7 +87,7 @@ export const musicPlayerConfig: MusicPlayerConfig = {
 				artist: "FrogMonster 蛙蛙",
 				url: "/assets/music/frogmonster-remember-our-summer.mp3",
 				cover: "/assets/music/cover/frogmonster-remember-our-summer.jpg",
-				lrc: "",
+				lrc: "/assets/music/lrc/frogmonster-remember-our-summer.lrc",
 			},
 			{
 				// 3:12 · 7.4MB
@@ -95,7 +95,7 @@ export const musicPlayerConfig: MusicPlayerConfig = {
 				artist: "Imagine Dragons / Broiler",
 				url: "/assets/music/imagine-dragons-shots-broiler-remix.mp3",
 				cover: "/assets/music/cover/imagine-dragons-shots-broiler-remix.jpg",
-				lrc: "",
+				lrc: "/assets/music/lrc/imagine-dragons-shots-broiler-remix.lrc",
 			},
 			{
 				// 3:31 · 8.2MB
@@ -103,7 +103,7 @@ export const musicPlayerConfig: MusicPlayerConfig = {
 				artist: "Joel Adams",
 				url: "/assets/music/joel-adams-please-don-t-go.mp3",
 				cover: "/assets/music/cover/joel-adams-please-don-t-go.jpg",
-				lrc: "",
+				lrc: "/assets/music/lrc/joel-adams-please-don-t-go.lrc",
 			},
 			{
 				// 3:11 · 7.4MB
@@ -111,7 +111,7 @@ export const musicPlayerConfig: MusicPlayerConfig = {
 				artist: "Jori King",
 				url: "/assets/music/jori-king-fatal-love.mp3",
 				cover: "/assets/music/cover/jori-king-fatal-love.jpg",
-				lrc: "",
+				lrc: "/assets/music/lrc/jori-king-fatal-love.lrc",
 			},
 			{
 				// 3:02 · 7.3MB
@@ -119,7 +119,7 @@ export const musicPlayerConfig: MusicPlayerConfig = {
 				artist: "Lasgo",
 				url: "/assets/music/lasgo-sky-high-radio-edit.mp3",
 				cover: "/assets/music/cover/lasgo-sky-high-radio-edit.jpg",
-				lrc: "",
+				lrc: "/assets/music/lrc/lasgo-sky-high-radio-edit.lrc",
 			},
 			{
 				// 3:57 · 9.1MB
@@ -127,7 +127,7 @@ export const musicPlayerConfig: MusicPlayerConfig = {
 				artist: "Lukas Graham",
 				url: "/assets/music/lukas-graham-7-years.mp3",
 				cover: "/assets/music/cover/lukas-graham-7-years.jpg",
-				lrc: "",
+				lrc: "/assets/music/lrc/lukas-graham-7-years.lrc",
 			},
 			{
 				// 4:04 · 9.4MB
@@ -135,7 +135,7 @@ export const musicPlayerConfig: MusicPlayerConfig = {
 				artist: "M83",
 				url: "/assets/music/m83-midnight-city.mp3",
 				cover: "/assets/music/cover/m83-midnight-city.jpg",
-				lrc: "",
+				lrc: "/assets/music/lrc/m83-midnight-city.lrc",
 			},
 			{
 				// 3:33 · 8.3MB
@@ -143,7 +143,7 @@ export const musicPlayerConfig: MusicPlayerConfig = {
 				artist: "Manafest",
 				url: "/assets/music/manafest-edge-of-my-life.mp3",
 				cover: "/assets/music/cover/manafest-edge-of-my-life.jpg",
-				lrc: "",
+				lrc: "/assets/music/lrc/manafest-edge-of-my-life.lrc",
 			},
 			{
 				// 3:51 · 8.9MB
@@ -151,7 +151,7 @@ export const musicPlayerConfig: MusicPlayerConfig = {
 				artist: "Maroon 5",
 				url: "/assets/music/maroon-5-animals.mp3",
 				cover: "/assets/music/cover/maroon-5-animals.jpg",
-				lrc: "",
+				lrc: "/assets/music/lrc/maroon-5-animals.lrc",
 			},
 			{
 				// 3:52 · 9.0MB
@@ -159,7 +159,7 @@ export const musicPlayerConfig: MusicPlayerConfig = {
 				artist: "Maroon 5 / Wiz Khalifa",
 				url: "/assets/music/maroon-5-payphone.mp3",
 				cover: "/assets/music/cover/maroon-5-payphone.jpg",
-				lrc: "",
+				lrc: "/assets/music/lrc/maroon-5-payphone.lrc",
 			},
 			{
 				// 3:48 · 8.8MB
@@ -167,7 +167,7 @@ export const musicPlayerConfig: MusicPlayerConfig = {
 				artist: "Reynard Silva",
 				url: "/assets/music/reynard-silva-the-way-i-still-love-you.mp3",
 				cover: "/assets/music/cover/reynard-silva-the-way-i-still-love-you.jpg",
-				lrc: "",
+				lrc: "/assets/music/lrc/reynard-silva-the-way-i-still-love-you.lrc",
 			},
 			{
 				// 3:12 · 7.6MB
@@ -175,7 +175,7 @@ export const musicPlayerConfig: MusicPlayerConfig = {
 				artist: "SHAUN / Conor Maynard / Sam Feldt",
 				url: "/assets/music/shaun-way-back-home-sam-feldt-edit.mp3",
 				cover: "/assets/music/cover/shaun-way-back-home-sam-feldt-edit.jpg",
-				lrc: "",
+				lrc: "/assets/music/lrc/shaun-way-back-home-sam-feldt-edit.lrc",
 			},
 			{
 				// 2:57 · 6.8MB
@@ -183,7 +183,7 @@ export const musicPlayerConfig: MusicPlayerConfig = {
 				artist: "SLANDER / Dylan Matthew",
 				url: "/assets/music/slander-love-is-gone-acoustic.mp3",
 				cover: "/assets/music/cover/slander-love-is-gone-acoustic.jpg",
-				lrc: "",
+				lrc: "/assets/music/lrc/slander-love-is-gone-acoustic.lrc",
 			},
 			{
 				// 3:30 · 8.3MB
@@ -191,7 +191,7 @@ export const musicPlayerConfig: MusicPlayerConfig = {
 				artist: "Shawn Hook / Vanessa Hudgens",
 				url: "/assets/music/shawn-hook-reminding-me.mp3",
 				cover: "/assets/music/cover/shawn-hook-reminding-me.jpg",
-				lrc: "",
+				lrc: "/assets/music/lrc/shawn-hook-reminding-me.lrc",
 			},
 			{
 				// 3:21 · 7.8MB
@@ -199,7 +199,7 @@ export const musicPlayerConfig: MusicPlayerConfig = {
 				artist: "Skylar Grey",
 				url: "/assets/music/skylar-grey-everything-i-need.mp3",
 				cover: "/assets/music/cover/skylar-grey-everything-i-need.jpg",
-				lrc: "",
+				lrc: "/assets/music/lrc/skylar-grey-everything-i-need.lrc",
 			},
 			{
 				// 3:22 · 7.9MB
@@ -207,7 +207,7 @@ export const musicPlayerConfig: MusicPlayerConfig = {
 				artist: "The Script / will.i.am",
 				url: "/assets/music/the-script-hall-of-fame.mp3",
 				cover: "/assets/music/cover/the-script-hall-of-fame.jpg",
-				lrc: "",
+				lrc: "/assets/music/lrc/the-script-hall-of-fame.lrc",
 			},
 			{
 				// 4:29 · 10.6MB
@@ -215,7 +215,7 @@ export const musicPlayerConfig: MusicPlayerConfig = {
 				artist: "Tinashe",
 				url: "/assets/music/tinashe-watch-me-work.mp3",
 				cover: "/assets/music/cover/tinashe-watch-me-work.jpg",
-				lrc: "",
+				lrc: "/assets/music/lrc/tinashe-watch-me-work.lrc",
 			},
 			{
 				// 3:14 · 7.7MB
@@ -223,7 +223,7 @@ export const musicPlayerConfig: MusicPlayerConfig = {
 				artist: "Vicetone / Meron Ryan",
 				url: "/assets/music/vicetone-walk-thru-fire.mp3",
 				cover: "/assets/music/cover/vicetone-walk-thru-fire.jpg",
-				lrc: "",
+				lrc: "/assets/music/lrc/vicetone-walk-thru-fire.lrc",
 			},
 			{
 				// 3:50 · 8.8MB
@@ -231,7 +231,7 @@ export const musicPlayerConfig: MusicPlayerConfig = {
 				artist: "Wiz Khalifa / Charlie Puth",
 				url: "/assets/music/wiz-khalifa-see-you-again.mp3",
 				cover: "/assets/music/cover/wiz-khalifa-see-you-again.jpg",
-				lrc: "",
+				lrc: "/assets/music/lrc/wiz-khalifa-see-you-again.lrc",
 			},
 		],
 	},
