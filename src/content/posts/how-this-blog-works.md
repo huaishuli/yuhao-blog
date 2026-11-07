@@ -1,27 +1,32 @@
 ---
 title: 这个博客是怎么搭起来的
 published: 2026-11-03
+updated: 2026-11-07
 description: Astro + Cloudflare Pages + Pages CMS：从本地构建到线上发布，以及我怎么在浏览器里写文章。
-image: /assets/images/uploads/how-this-blog-works.avif
+category: 技术
 tags:
   - Astro
   - Cloudflare
   - 博客搭建
-category: 技术
+image: /assets/images/uploads/202611041522342763-1.jpg
+draft: false
+pinned: true
 slug: how-this-blog-works
+comment: true
 ---
-
 ## 技术栈
 
 这个站点是一套纯静态的 Astro 博客：
 
+
 | 部分 | 选择 | 说明 |
-| --- | --- | --- |
+| --- | ------------------------------------------------ | ------------------------ |
 | 框架 | [Astro](https://astro.build) | 静态输出，交互组件用 Svelte 岛 |
 | 样式 | Tailwind CSS | 主题色、明暗模式都走 CSS 变量 |
 | 搜索 | Pagefind | 构建时生成索引，纯前端检索 |
 | 托管 | [Cloudflare Pages](https://pages.cloudflare.com) | 连 GitHub 仓库，push 即自动构建部署 |
 | 写作 | [Pages CMS](https://app.pagescms.org) | 浏览器里的后台，提交即 commit |
+
 
 ## 发布流程
 
