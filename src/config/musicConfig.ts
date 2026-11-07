@@ -1,39 +1,39 @@
-导入 类型 { MusicPlayerConfig } 自 "../types/musicConfig";
+import type { MusicPlayerConfig } from "../types/musicConfig";
 
 // 音乐播放器配置
-导出 const musicPlayerConfig: MusicPlayerConfig = {
+export const musicPlayerConfig: MusicPlayerConfig = {
 	// 是否在导航栏显示音乐播放器入口
-	在导航栏中显示: false,
+	showInNavbar: false,
 
 	// 是否在侧边栏显示音乐播放器组件
-	在侧边栏显示: true,
+	showInSidebar: true,
 
 	// 使用方式："meting" 使用 Meting API，"local" 使用本地音乐列表
-	模式: "meting",
+	mode: "meting",
 
 	// 默认音量 (0-1)
-	音量: 0.7,
+	volume: 0.7,
 
 	// 播放模式：'list'=列表循环, 'one'=单曲循环, 'random'=随机播放
-	播放模式: "列表",
+	playMode: "list",
 
-	// 是否启用歌词
-	显示歌词: true,
+	// 是否显启用歌词
+	showLyrics: true,
 
 	// Meting API 配置
-	会议: {
+	meting: {
 		// Meting API 地址
 		// 主 API 必须同时支持 playlist 列表与 url 取流，api.i-meto.com 取流已失效（404），故不再作为主 API
 		api: "https://api.injahow.cn/meting/?server=:server&type=:type&id=:id",
 		// 音乐平台：netease=网易云音乐, tencent=QQ音乐, kugou=酷狗音乐, xiami=虾米音乐, baidu=百度音乐
-		服务器: "网易,
+		server: "netease",
 		// 类型：song=单曲, playlist=歌单, album=专辑, search=搜索, artist=艺术家
-		类型: "播放列表",
+		type: "playlist",
 		// 歌单/专辑/单曲 ID 或搜索关键词
 		// 换成自己的歌单：https://music.163.com/#/playlist?id=歌单ID
 		id: "18569150326",
 		// 认证 token（可选）
-		认证: "",
+		auth: "",
 		// 备用 API 配置（当主 API 失败时使用）
 		fallbackApis: [
 			"https://api.i-meto.com/meting/api?server=:server&type=:type&id=:id&r=:r",
